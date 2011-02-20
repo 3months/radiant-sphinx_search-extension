@@ -5,7 +5,7 @@ module SphinxSearch
    
    def self.included(base)
      base.define_index do
-       set_property :delta => true, :group_concat_max_len => SphinxSearch.content_length || 8.kilobytes
+       set_property :delta => true
        set_property :field_weights => { 'title' => 100 }
        indexes title, :sortable => true
        indexes parts.content
