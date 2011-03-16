@@ -2,6 +2,7 @@ module SphinxSearch
   module RadiusTags
     include Radiant::Taggable
     include ActionView::Helpers::TextHelper
+    include ActionView::Helpers::SanitizeHelper 
 
     desc %{
       Namespace for all search tags.
@@ -133,10 +134,10 @@ module SphinxSearch
     tag 'search:results:each:excerpt' do |tag|
       content = case tag.attr['for']
       when 'title' : tag.locals.page.title
-      when nil : tag.locals.page.parts.map(&:content).join(' ')
-      else tag.locals.page.part(tag.attr['for']).try(:content) || ''
+      when nil : tag.globals.results.strip_tags(tag.locals.page.parts.map(&:content).join(' '))
+      else tag.globals.results.strip_tags(tag.locals.page.part(tag.attr['for']).try(:content)) || ''
       end
-      tag.globals.results.excerpt_for(content, tag.locals.page.class)
+      tag.globals.results.excerpt_for(tag.globals.results.strip_tags(content, tag.locals.page.class)
     end
 
     desc %{
