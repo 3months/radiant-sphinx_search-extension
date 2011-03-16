@@ -136,7 +136,7 @@ module SphinxSearch
       when nil : ActionController::Base.helpers.strip_tags(tag.locals.page.parts.map(&:content).join(' '))
       else ActionController::Base.helpers.strip_tags(tag.locals.page.part(tag.attr['for']).try(:content)) || ''
       end
-      tag.globals.results.excerpt_for(ActionController::Base.helpers.strip_tags(content, tag.locals.page.class)
+      tag.globals.results.excerpt_for(ActionController::Base.helpers.strip_tags(content, tag.locals.page.class))
     end
 
     desc %{
